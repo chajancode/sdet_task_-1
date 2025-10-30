@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -30,6 +31,7 @@ class BasePage():
         sleep(3)
         alert.accept()
 
+    @allure.step("Нажата вкладка Customers")
     def click_customers_tab(self) -> None:
         customers_tab: WebElement = self._is_clickable(
             ManagerPageLocators.CUSTOMERS_TAB
