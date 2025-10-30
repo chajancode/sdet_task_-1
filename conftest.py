@@ -1,3 +1,4 @@
+from typing import Generator
 import pytest
 
 from selenium.webdriver.chrome.options import Options
@@ -12,7 +13,7 @@ from pages.delete_customer import DeleteCustomer
 
 
 @pytest.fixture(scope="session")
-def browser():
+def browser() -> Generator[WebDriver, None, None]:
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
     driver: WebDriver = webdriver.Chrome(

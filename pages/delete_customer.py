@@ -19,11 +19,13 @@ class DeleteCustomer(BasePage):
 
     @allure.step("Получение содержимого таблицы клиентов")
     def _get_table_content(self) -> List[WebElement]:
-        return self.wait.until(
+        content = self.wait.until(
                     EC.presence_of_all_elements_located(
                         ManagerPageLocators.TABLE_OF_CUSTOMERS
                     )
                 )
+        assert content is not None, "Таблица клиентов не найдена"
+        return content
 
     @allure.step("Получение списка имен всех клиентов из таблицы")
     def _get_customers_names_list(self) -> List[str]:
@@ -33,6 +35,7 @@ class DeleteCustomer(BasePage):
                 *ManagerPageLocators.FIRST_NAME_CELL
                 ).text
             customer_names.append(first_name_cell)
+        assert customer_names is not None, "Невозможно получить данные"
         return customer_names
 
     @allure.step("Удаление клиента")
@@ -44,10 +47,12 @@ class DeleteCustomer(BasePage):
             first_name_cell = row.find_element(
                 *ManagerPageLocators.FIRST_NAME_CELL
             )
-            if first_name_cell.text.strip() == customer_to_remove:
+            if first_name_cell.text == customer_to_remove:
                 delete_button: WebElement = row.find_element(
                     *ManagerPageLocators.DELETE_BUTTON
                 )
                 delete_button.click()
+                assert delete_button is not None, "Элемент не найден"
+                allure.step("Клиент удалён")
                 break
         sleep(5)

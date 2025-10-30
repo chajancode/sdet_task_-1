@@ -2,7 +2,6 @@ from time import sleep
 
 import allure
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
 
 from config.locators import ManagerPageLocators
 from pages.base import BasePage
@@ -14,12 +13,10 @@ class SortByFirstName(BasePage):
     def __init__(self, driver: WebDriver) -> None:
         super().__init__(driver)
 
-    @allure.step(
-            "Выполнение сортировки клиентов по имени в алфавитном порядке"
-        )
+    @allure.step("Выполнение сортировки клиентов по имени")
     def sort_customers_by_first_name(self) -> None:
-        first_name_header: WebElement = self._is_clickable(
-            ManagerPageLocators.FIRST_NAME_HEADER
+        self._click_element(
+            ManagerPageLocators.FIRST_NAME_HEADER,
+            "First Name"
         )
-        first_name_header.click()
         sleep(2)

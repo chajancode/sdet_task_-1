@@ -4,7 +4,9 @@ import allure
 from faker import Faker
 
 
-@allure.step("Вычисление клиента для удаления на основе списка {customers}")
+@allure.step(
+        "Получение имени клиента для удаления на основе списка {customers}"
+    )
 def customer_to_delete(customers: list[str]) -> str:
     lengths = [len(cust) for cust in customers]
     mean_length = round(sum(lengths) / len(lengths))
