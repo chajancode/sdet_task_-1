@@ -2,8 +2,8 @@ from selenium.webdriver.common.by import By
 
 
 class ManagerPageLocators:
-    ADD_CUSTOMER_BUTTON = (By.CSS_SELECTOR, "[ng-click=\"addCust()\"]")
-    ADD_CUSTOMER_TAB = (By.CSS_SELECTOR, "button[type=\"submit\"]")
+    ADD_CUSTOMER_BUTTON = (By.CSS_SELECTOR, "button[type=\"submit\"]")
+    ADD_CUSTOMER_TAB = (By.CSS_SELECTOR, "button[ng-click=\"addCust()\"]")
     CUSTOMERS_TAB = (By.CSS_SELECTOR, "button[ng-click=\"showCust()\"]")
     FIRST_NAME_FIELD = (By.CSS_SELECTOR, "[ng-model=\"fName\"]")
     LAST_NAME_FIELD = (By.CSS_SELECTOR, "[ng-model=\"lName\"]")

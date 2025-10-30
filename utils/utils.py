@@ -26,10 +26,3 @@ def generate_first_name(post_code: str) -> str:
                 chr(ord('a') + code % 26) for code in letter_codes
         ]
     return "".join(letter_list)
-
-
-# print(type(generate_post_code()))
-# print(generate_first_name("0001252667"))
-# print(generate_last_name())
-# lister = ["Albus", "Neville", "Voldemort"]
-# print(customer_to_delete(lister))
