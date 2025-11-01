@@ -12,4 +12,3 @@ class TestDeleteCustomer:
     ) -> None:
         delete_customer.click_customers_tab()
         delete_customer.remove_customer()
-

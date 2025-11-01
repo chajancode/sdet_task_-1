@@ -27,6 +27,20 @@ class BasePage():
         assert content is not None, "Таблица клиентов не найдена"
         return content
 
+    @allure.step("Получение списка имен всех клиентов из таблицы")
+    def _get_customers_names_list(self) -> List[str]:
+        customer_names: List[str] = []
+        table_rows: List[WebElement] = self._get_table_content()
+
+        for row in table_rows:
+            first_name_cell = row.find_element(
+                *ManagerPageLocators.FIRST_NAME_CELL
+                ).text
+            customer_names.append(first_name_cell)
+
+        assert customer_names, "Невозможно получить данные"
+        return customer_names
+
     def _is_clickable(self, by_value: tuple) -> WebElement:
         element = self.wait.until(
             EC.element_to_be_clickable(by_value)

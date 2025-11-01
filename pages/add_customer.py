@@ -30,6 +30,7 @@ class AddCustomer(BasePage):
         table_content: List[WebElement] = self._get_table_content()
         return len(table_content)
 
+    @allure.step("Поле {name} заполнено значением {value}")
     def _fill_field(self, locator: tuple, value: str, name: str) -> None:
         field: WebElement = self._find_element(locator)
         field.send_keys(value)
@@ -81,9 +82,9 @@ class AddCustomer(BasePage):
     @allure.step("Данные добавлены")
     def check_if_customer_added(self) -> None:
         self.click_customers_tab()
-        current_row_count: int = len(
-            self._get_table_content()
-        )
-        assert current_row_count > self._initial_rows, (
-            "Данные не были добавлены"
-        )
+        current_names_in_table: List[str] = self._get_customers_names_list()
+        
+        if self.first_name not in current_names_in_table:
+            raise AssertionError(
+                f"Клиент с именем {self.first_name} не был добавлен"
+            )

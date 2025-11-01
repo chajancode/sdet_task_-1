@@ -17,20 +17,6 @@ class DeleteCustomer(BasePage):
     def __init__(self, driver: WebDriver) -> None:
         super().__init__(driver)
 
-    @allure.step("Получение списка имен всех клиентов из таблицы")
-    def _get_customers_names_list(self) -> List[str]:
-        customer_names: List[str] = []
-        table_rows: List[WebElement] = self._get_table_content()
-
-        for row in table_rows:
-            first_name_cell = row.find_element(
-                *ManagerPageLocators.FIRST_NAME_CELL
-                ).text
-            customer_names.append(first_name_cell)
-
-        assert customer_names, "Невозможно получить данные"
-        return customer_names
-
     @allure.step("Поиск строки клиента для удаления")
     def _find_customer_row(self, customer_name: str) -> WebElement | None:
         table_rows: List[WebElement] = self._get_table_content()
@@ -65,17 +51,3 @@ class DeleteCustomer(BasePage):
         )
         delete_button.click()
         self._check_if_customer_removed(customer_to_remove)
-
-        # for row in table_content:
-        #     first_name_cell = row.find_element(
-        #         *ManagerPageLocators.FIRST_NAME_CELL
-        #     )
-        #     if first_name_cell.text == customer_to_remove:
-        #         delete_button: WebElement = row.find_element(
-        #             *ManagerPageLocators.DELETE_BUTTON
-        #         )
-        #         delete_button.click()
-        #         assert delete_button is not None, "Элемент не найден"
-        #         allure.step("Клиент удалён")
-        #         break
-        # sleep(5)
