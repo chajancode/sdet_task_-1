@@ -1,0 +1,50 @@
+name: Simbirsoft SDET task 1
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.5'
+          cache: 'pip'
+          cache-dependency-path: requirements.txt
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Download Allure CLI
+        run: |
+          curl -o allure-2.28.0.zip -L https://github.com/allure-framework/allure2/releases/download/2.28.0/allure-2.28.0.zip
+          unzip allure-2.28.0.zip -d allure
+        
+      - name: Run tests
+        run: |
+          pytest -n auto --alluredir=./allure-results
+
+      - name: Generate Allure report
+        if: always()
+        run: |
+          allure/bin/allure generate allure-results -o allure-report --clean
+      
+      - name: Upload Allure report
+        uses: actions/Upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 1
