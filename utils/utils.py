@@ -3,13 +3,22 @@ from random import randint
 import allure
 from faker import Faker
 
+fake = Faker()
+
 
 @allure.step(
         "Получение имени клиента для удаления на основе списка {customers}"
     )
 def customer_to_delete(customers: list[str]) -> str:
+
+    if not customers:
+        raise ValueError("Список имён клиентов пуст")
+    if not all(isinstance(cust, str) for cust in customers):
+        raise TypeError("Все элементы списка должны быть типа str")
+
     lengths = [len(cust) for cust in customers]
     mean_length = round(sum(lengths) / len(lengths))
+
     cust_to_delete = min(customers, key=lambda x: abs(len(x) - mean_length))
     allure.attach(
         f"Имя клиента для удаления: {cust_to_delete}"
@@ -19,7 +28,6 @@ def customer_to_delete(customers: list[str]) -> str:
 
 @allure.step("Генерация значения для 'Last Name'")
 def generate_last_name() -> str:
-    fake = Faker()
     last_name = fake.last_name()
     allure.attach(
         f"Значение для 'Last Name': {last_name}"
