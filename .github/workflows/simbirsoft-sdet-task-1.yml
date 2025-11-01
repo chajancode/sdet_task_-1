@@ -40,7 +40,7 @@ jobs:
       - name: Generate Allure report
         if: always()
         run: |
-          allure/bin/allure generate allure-results -o allure-report --clean
+          allure-2.35.1/bin/allure generate allure-results -o allure-report --clean
       
       - name: Upload Allure report
         uses: actions/Upload-artifact@v4
