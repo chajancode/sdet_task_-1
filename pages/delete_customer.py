@@ -1,9 +1,7 @@
-from time import sleep
 from typing import List
 
 import allure
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 
 from utils.utils import customer_to_delete

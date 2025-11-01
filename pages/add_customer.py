@@ -83,7 +83,7 @@ class AddCustomer(BasePage):
     def check_if_customer_added(self) -> None:
         self.click_customers_tab()
         current_names_in_table: List[str] = self._get_customers_names_list()
-        
+
         if self.first_name not in current_names_in_table:
             raise AssertionError(
                 f"Клиент с именем {self.first_name} не был добавлен"

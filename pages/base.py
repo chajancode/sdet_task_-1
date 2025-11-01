@@ -45,14 +45,12 @@ class BasePage():
         element = self.wait.until(
             EC.element_to_be_clickable(by_value)
         )
-        assert element is not None, "Элемент не найден"
         return element
 
     def _find_element(self, by_value: tuple) -> WebElement:
         element = self.wait.until(
             EC.presence_of_element_located(by_value)
         )
-        assert element is not None, "Элемент не найден"
         return element
 
     @allure.step("Кликнут алерт")
@@ -62,14 +60,12 @@ class BasePage():
             ).until(
                 EC.alert_is_present()
         )
-        assert alert is not None, "Алерт не появился"
         sleep(3)
         alert.accept()
 
     @allure.step("Кликнут элемент {name}")
     def _click_element(self, locator: tuple, name: str) -> None:
         element = self._is_clickable(locator)
-        assert element is not None, f"Элемент {name} не найден"
         element.click()
 
     def click_customers_tab(self) -> None:
