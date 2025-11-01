@@ -1,3 +1,4 @@
+from typing import List
 import allure
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -15,6 +16,16 @@ class BasePage():
         self.driver = driver
         self.url = self.driver.get(URL)
         self.wait: WebDriver = WebDriverWait(self.driver, 10)
+
+    @allure.step("Получение содержимого таблицы клиентов")
+    def _get_table_content(self) -> List[WebElement]:
+        content = self.wait.until(
+                    EC.presence_of_all_elements_located(
+                        ManagerPageLocators.TABLE_OF_CUSTOMERS
+                    )
+                )
+        assert content is not None, "Таблица клиентов не найдена"
+        return content
 
     def _is_clickable(self, by_value: tuple) -> WebElement:
         element = self.wait.until(

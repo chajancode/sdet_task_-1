@@ -12,3 +12,4 @@ class TestAddCustomer:
         add_customer.fill_first_name()
         add_customer.fill_last_name()
         add_customer.click_add_customer_button()
+        add_customer.check_if_customer_added()

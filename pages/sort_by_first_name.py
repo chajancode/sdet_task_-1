@@ -12,6 +12,7 @@ from pages.base import BasePage
 class SortByFirstName(BasePage):
     def __init__(self, driver: WebDriver) -> None:
         super().__init__(driver)
+        self.names
 
     @allure.step("Выполнение сортировки клиентов по имени")
     def sort_customers_by_first_name(self) -> None:

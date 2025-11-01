@@ -1,4 +1,5 @@
 from time import sleep
+from typing import List
 
 import allure
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -21,10 +22,16 @@ class AddCustomer(BasePage):
         self.post_code: str = generate_post_code()
         self.first_name: str = generate_first_name(self.post_code)
         self.last_name: str = generate_last_name()
+        self._initial_rows: int = self.initial_count
+
+    @property
+    def initial_count(self) -> List[WebElement]:
+        self.click_customers_tab()
+        table_content: List[WebElement] = self._get_table_content()
+        return len(table_content)
 
     def _fill_field(self, locator: tuple, value: str, name: str) -> None:
         field: WebElement = self._find_element(locator)
-        assert field is not None, f"Поле {name} не найдено"
         field.send_keys(value)
 
     @allure.step("Нажата вкладка 'Add Customer'")
@@ -70,3 +77,13 @@ class AddCustomer(BasePage):
         )
         self._alert_is_present()
         sleep(2)
+
+    @allure.step("Данные добавлены")
+    def check_if_customer_added(self) -> None:
+        self.click_customers_tab()
+        current_row_count: int = len(
+            self._get_table_content()
+        )
+        assert current_row_count > self._initial_rows, (
+            "Данные не были добавлены"
+        )
