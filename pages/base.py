@@ -5,9 +5,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 
-from time import sleep
-
-from config.locators import ManagerPageLocators
+from locators.manager_page_locators import ManagerPageLocators
 from config.params import URL
 
 
@@ -60,7 +58,6 @@ class BasePage():
             ).until(
                 EC.alert_is_present()
         )
-        sleep(3)
         alert.accept()
 
     @allure.step("Кликнут элемент {name}")
@@ -73,4 +70,3 @@ class BasePage():
             ManagerPageLocators.CUSTOMERS_TAB,
             "Customers"
         )
-        sleep(2)

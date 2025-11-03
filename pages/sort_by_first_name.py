@@ -1,10 +1,9 @@
-from time import sleep
 from typing import List
 
 import allure
 from selenium.webdriver.chrome.webdriver import WebDriver
 
-from config.locators import ManagerPageLocators
+from locators.manager_page_locators import ManagerPageLocators
 from pages.base import BasePage
 
 
@@ -35,4 +34,3 @@ class SortByFirstName(BasePage):
             "First Name"
         )
         self._check_if_sorted()
-        sleep(2)

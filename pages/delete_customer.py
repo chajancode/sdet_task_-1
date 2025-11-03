@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 
 from utils.utils import customer_to_delete
-from config.locators import ManagerPageLocators
+from locators.manager_page_locators import ManagerPageLocators
 from pages.base import BasePage
 
 

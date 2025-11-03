@@ -1,4 +1,3 @@
-from time import sleep
 from typing import List
 
 import allure
@@ -10,7 +9,7 @@ from utils.utils import (
                 generate_post_code,
                 generate_first_name
     )
-from config.locators import ManagerPageLocators
+from locators.manager_page_locators import ManagerPageLocators
 from pages.base import BasePage
 
 
@@ -41,7 +40,6 @@ class AddCustomer(BasePage):
             ManagerPageLocators.ADD_CUSTOMER_TAB,
             "вкладка 'Add Customer'"
         )
-        sleep(2)
 
     @allure.step("Заполнение поля 'Post Code'")
     def fill_post_code(self) -> None:
@@ -50,7 +48,6 @@ class AddCustomer(BasePage):
             self.post_code,
             "Post code"
         )
-        sleep(2)
 
     @allure.step("Заполнение поля 'First Name'")
     def fill_first_name(self) -> None:
@@ -59,7 +56,6 @@ class AddCustomer(BasePage):
             self.first_name,
             "First name"
         )
-        sleep(2)
 
     @allure.step("Заполнение поля 'Last Name'")
     def fill_last_name(self) -> None:
@@ -68,7 +64,6 @@ class AddCustomer(BasePage):
             self.last_name,
             "Last name"
         )
-        sleep(2)
 
     @allure.step("Нажата кнопка 'Add Customer'")
     def click_add_customer_button(self) -> None:
@@ -77,7 +72,6 @@ class AddCustomer(BasePage):
             "кнопка 'Add Customer'"
         )
         self._alert_is_present()
-        sleep(2)
 
     @allure.step("Данные добавлены")
     def check_if_customer_added(self) -> None:
