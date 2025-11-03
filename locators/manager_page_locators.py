@@ -24,7 +24,19 @@ class ManagerPageLocators:
         By.CSS_SELECTOR,
         "a[ng-click=\"sortType = 'fName'; sortReverse = !sortReverse\"]"
         )
-    CUSTOMER_TABLE_ROWS: tuple[By, str] = (By.CSS_SELECTOR, "table tbody tr")
-    FIRST_NAME_CELL: tuple[By, str] = (By.CSS_SELECTOR, "td:first-child")
-    TABLE_OF_CUSTOMERS: tuple[By, str] = (By.CSS_SELECTOR, "tbody tr")
-    DELETE_BUTTON: tuple[By, str] = (By.CSS_SELECTOR, "td button")
+    CUSTOMER_TABLE_ROWS: tuple[By, str] = (
+        By.CSS_SELECTOR,
+        "table tbody tr"
+        )
+    FIRST_NAME_CELL: tuple[By, str] = (
+        By.CSS_SELECTOR,
+        "td:first-child"
+        )
+    TABLE_OF_CUSTOMERS: tuple[By, str] = (
+        By.CSS_SELECTOR,
+        "tbody tr"
+        )
+    DELETE_BUTTON: tuple[By, str] = (
+        By.CSS_SELECTOR,
+        "td button"
+        )

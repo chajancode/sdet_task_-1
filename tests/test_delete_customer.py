@@ -1,8 +1,10 @@
 import allure
+import pytest
 
 from pages.delete_customer import DeleteCustomer
 
 
+@pytest.mark.ui
 class TestDeleteCustomer:
     @allure.title("Тест удаления клиента")
     @allure.description("Удаляет клиента, согласно алгоритму в тест-кейсе")

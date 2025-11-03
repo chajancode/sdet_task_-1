@@ -1,8 +1,10 @@
 import allure
+import pytest
 
 from pages.sort_by_first_name import SortByFirstName
 
 
+@pytest.mark.ui
 class TestSortByFirstName:
     @allure.title("Тест сортировки клиентов по имени")
     @allure.description("Сортирует клиентов по имени в алфавитном порядке")

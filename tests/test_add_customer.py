@@ -1,8 +1,11 @@
 import allure
+import pytest
 
 from pages.add_customer import AddCustomer
 
 
+@pytest.mark.fill_forms
+@pytest.mark.ui
 class TestAddCustomer:
     @allure.title("Тест создания нового клиента")
     @allure.description("Генерирует почтовый индекс, имя и фамилию")
@@ -12,3 +15,4 @@ class TestAddCustomer:
         add_customer.fill_first_name()
         add_customer.fill_last_name()
         add_customer.click_add_customer_button()
+        add_customer.check_if_customer_added()

@@ -1,4 +1,4 @@
-from time import sleep
+from typing import List
 
 import allure
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -9,7 +9,7 @@ from utils.utils import (
                 generate_post_code,
                 generate_first_name
     )
-from config.locators import ManagerPageLocators
+from locators.manager_page_locators import ManagerPageLocators
 from pages.base import BasePage
 
 
@@ -21,10 +21,17 @@ class AddCustomer(BasePage):
         self.post_code: str = generate_post_code()
         self.first_name: str = generate_first_name(self.post_code)
         self.last_name: str = generate_last_name()
+        self._initial_rows: int = self.initial_count
 
+    @property
+    def initial_count(self) -> List[WebElement]:
+        self.click_customers_tab()
+        table_content: List[WebElement] = self._get_table_content()
+        return len(table_content)
+
+    @allure.step("Поле {name} заполнено значением {value}")
     def _fill_field(self, locator: tuple, value: str, name: str) -> None:
         field: WebElement = self._find_element(locator)
-        assert field is not None, f"Поле {name} не найдено"
         field.send_keys(value)
 
     @allure.step("Нажата вкладка 'Add Customer'")
@@ -33,7 +40,6 @@ class AddCustomer(BasePage):
             ManagerPageLocators.ADD_CUSTOMER_TAB,
             "вкладка 'Add Customer'"
         )
-        sleep(2)
 
     @allure.step("Заполнение поля 'Post Code'")
     def fill_post_code(self) -> None:
@@ -42,7 +48,6 @@ class AddCustomer(BasePage):
             self.post_code,
             "Post code"
         )
-        sleep(2)
 
     @allure.step("Заполнение поля 'First Name'")
     def fill_first_name(self) -> None:
@@ -51,7 +56,6 @@ class AddCustomer(BasePage):
             self.first_name,
             "First name"
         )
-        sleep(2)
 
     @allure.step("Заполнение поля 'Last Name'")
     def fill_last_name(self) -> None:
@@ -60,7 +64,6 @@ class AddCustomer(BasePage):
             self.last_name,
             "Last name"
         )
-        sleep(2)
 
     @allure.step("Нажата кнопка 'Add Customer'")
     def click_add_customer_button(self) -> None:
@@ -69,4 +72,13 @@ class AddCustomer(BasePage):
             "кнопка 'Add Customer'"
         )
         self._alert_is_present()
-        sleep(2)
+
+    @allure.step("Данные добавлены")
+    def check_if_customer_added(self) -> None:
+        self.click_customers_tab()
+        current_names_in_table: List[str] = self._get_customers_names_list()
+
+        if self.first_name not in current_names_in_table:
+            raise AssertionError(
+                f"Клиент с именем {self.first_name} не был добавлен"
+            )
