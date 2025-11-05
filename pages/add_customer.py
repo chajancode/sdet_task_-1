@@ -21,13 +21,6 @@ class AddCustomer(BasePage):
         self.post_code: str = generate_post_code()
         self.first_name: str = generate_first_name(self.post_code)
         self.last_name: str = generate_last_name()
-        self._initial_rows: int = self.initial_count
-
-    @property
-    def initial_count(self) -> List[WebElement]:
-        self.click_customers_tab()
-        table_content: List[WebElement] = self._get_table_content()
-        return len(table_content)
 
     @allure.step("Поле {name} заполнено значением {value}")
     def _fill_field(self, locator: tuple, value: str, name: str) -> None:
@@ -71,7 +64,7 @@ class AddCustomer(BasePage):
             ManagerPageLocators.ADD_CUSTOMER_BUTTON,
             "кнопка 'Add Customer'"
         )
-        self._alert_is_present()
+        self._accept_alert()
 
     @allure.step("Данные добавлены")
     def check_if_customer_added(self) -> None:

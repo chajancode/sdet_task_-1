@@ -56,7 +56,7 @@ def pytest_runtest_makereport(
 
     if rep.when == "call" and rep.failed:
         screenshot = driver.get_screenshot_as_png()
-        screenshot_name = f"Ошибка: в тесте{item.name}"
+        screenshot_name = f"Ошибка: в тесте {item.name}"
         allure.attach(
             screenshot,
             name=screenshot_name,

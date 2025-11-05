@@ -13,7 +13,7 @@ class BasePage():
     def __init__(self, driver: WebDriver) -> None:
         self.driver = driver
         self.url = self.driver.get(URL)
-        self.wait: WebDriver = WebDriverWait(self.driver, 10)
+        self.wait: WebDriverWait = WebDriverWait(self.driver, 10)
 
     @allure.step("Получение содержимого таблицы клиентов")
     def _get_table_content(self) -> List[WebElement]:
@@ -52,10 +52,8 @@ class BasePage():
         return element
 
     @allure.step("Кликнут алерт")
-    def _alert_is_present(self) -> None:
-        alert = WebDriverWait(
-            self.driver, 10
-            ).until(
+    def _accept_alert(self) -> None:
+        alert = self.wait.until(
                 EC.alert_is_present()
         )
         alert.accept()
