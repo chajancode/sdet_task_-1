@@ -1,4 +1,5 @@
 from typing import Generator
+import allure
 import pytest
 
 from selenium.webdriver.chrome.options import Options
@@ -43,3 +44,20 @@ def sort_by_first_name(browser: WebDriver) -> SortByFirstName:
 def delete_customer(browser: WebDriver) -> DeleteCustomer:
     page = DeleteCustomer(browser)
     return page
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(
+        item: pytest.Item,
+        call: pytest.CallInfo) -> Generator[None, None, None]:
+    outcome = yield
+    rep: pytest.TestReport = outcome.get_result()
+    driver = item.funcargs["browser"]
+
+    if rep.when == "call" and rep.failed:
+        screenshot = driver.get_screenshot_as_png()
+        screenshot_name = f"Ошибка: в тесте {item.name}"
+        allure.attach(
+            screenshot,
+            name=screenshot_name,
+        )
