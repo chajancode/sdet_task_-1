@@ -22,7 +22,7 @@ class BasePage():
                         ManagerPageLocators.TABLE_OF_CUSTOMERS
                     )
                 )
-        assert content is not None, "Таблица клиентов не найдена"
+        assert content, "Таблица клиентов не найдена"
         return content
 
     @allure.step("Получение списка имен всех клиентов из таблицы")
