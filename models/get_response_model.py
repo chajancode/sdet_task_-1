@@ -9,9 +9,10 @@ class Addition(BaseModel):
     id: int
 
 
-class ResponseModel(BaseModel):
+class GetResponseModel(BaseModel):
     addition: Addition
     id: int
     important_numbers: List[int]
     title: str
     verified: bool
+

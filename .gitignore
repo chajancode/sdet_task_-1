@@ -225,3 +225,5 @@ $RECYCLE.BIN/
 .allure-tests/
 allure-tests
 /allure*
+exp.py
+callexp.py
