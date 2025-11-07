@@ -1,10 +1,18 @@
-import requests
-from requests import Session
+from typing import Type, TypeVar
+from pydantic import BaseModel, ValidationError
+from requests import RequestException, Session
 
+from Exceptions.APIExceptions import APIError, ResponseValidationError
 from endpoints.endpoints import Endpoints
-from models.create_and_patch_model import MainModel
+from models.create_and_patch_model import CreateAndPatchModel
 from models.get_all_model import GetAllParamsModel
+from models.get_all_response_model import GetAllResponseModel
 from models.get_and_delete_model import GetAndDeleteModel
+from models.get_response_model import GetResponseModel
+from models.patch_id_model import PatchIdModel
+
+
+T = TypeVar("T", bound=BaseModel)
 
 
 class APIEntity:
@@ -17,44 +25,88 @@ class APIEntity:
                 method: str,
                 endpoint: str,
                 params=None,
-                json=None
+                json=None,
+                response_model: Type[T] | None = None
                 ):
+        try:
+            response = self.session.request(
+                            method=method,
+                            url=endpoint,
+                            params=params,
+                            json=json,
+                            timeout=self.timeout,
+            )
 
-        response = self.session.request(
-                        method=method,
-                        url=endpoint,
-                        params=params,
-                        json=json,
-                        timeout=self.timeout
-        )
-        return response
+            if not response.ok:
+                raise APIError(
+                    status_code=response.status_code,
+                    details=response.text,
+                    url=response.url
+                )
 
-    def create_entity(self, data: MainModel):
-        response = self._request(
+            if response_model is None:
+                match method:
+                    case "POST":
+                        return response.json()
+                    case "DELETE":
+                        return
+                    case "PATCH":
+                        return
+
+            return response_model.model_validate(response.json())
+
+        except ValidationError as e:
+            raise ResponseValidationError(
+                detail=e.errors(),
+                url=response.url if response else endpoint
+                ) from e
+        except TimeoutError:
+            raise APIError(
+                status_code=response.status_code,
+                details="Истекло время запроса",
+                url=endpoint
+            )
+        except RequestException as e:
+            raise APIError(
+                status_code=response.status_code,
+                details=str(e),
+                url=endpoint
+            ) from e
+
+    def create_entity(self, data: CreateAndPatchModel):
+        return self._request(
             method="POST",
             endpoint=Endpoints.CREATE,
-            json=data.model_dump()
+            json=data.model_dump(),
         )
-        return response
 
-    def delete_entity(self, data: GetAndDeleteModel):
-        response = self._request(
+    def delete_entity(self, params: GetAndDeleteModel):
+        return self._request(
             method="DELETE",
-            endpoint=f"{Endpoints.DELETE}{data.id}"
+            endpoint=f"{Endpoints.DELETE}{params.id}",
+            params=params.model_dump(),
+            response_model=None
         )
-        return response
 
-    def get_entity(self, data: GetAndDeleteModel):
-        response = self._request(
+    def get_entity(self, params: GetAndDeleteModel):
+        return self._request(
             method="GET",
-            endpoint=f"{Endpoints.GET}{data.id}"
+            endpoint=f"{Endpoints.GET}{params.id}",
+            params=params.model_dump(),
+            response_model=GetResponseModel
         )
-        return response
 
     def get_all(self, params: GetAllParamsModel):
-        response = self._request(
+        return self._request(
             method="GET",
             endpoint=Endpoints.GET_ALL,
-            params=params.model_dump()
+            params=params.model_dump(),
+            response_model=GetAllResponseModel
         )
-        return response
+
+    def patch_entity(self, id: PatchIdModel, data: CreateAndPatchModel):
+        return self._request(
+            method="PATCH",
+            endpoint=f"{Endpoints.PATCH}{id.id}",
+            json=data.model_dump()
+        )

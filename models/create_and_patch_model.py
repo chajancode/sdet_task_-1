@@ -7,7 +7,7 @@ class Addition(BaseModel):
     additional_number: int
 
 
-class MainModel(BaseModel):
+class CreateAndPatchModel(BaseModel):
     addition: Addition
     important_numbers: List[int]
     title: str

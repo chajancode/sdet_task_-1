@@ -15,4 +15,3 @@ class GetResponseModel(BaseModel):
     important_numbers: List[int]
     title: str
     verified: bool
-
