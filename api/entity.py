@@ -2,7 +2,7 @@ from typing import Type, TypeVar
 from pydantic import BaseModel, ValidationError
 from requests import RequestException, Session
 
-from Exceptions.APIExceptions import APIError, ResponseValidationError
+from exceptions.APIExceptions import APIError, ResponseValidationError
 from endpoints.endpoints import Endpoints
 from models.create_and_patch_model import CreateAndPatchModel
 from models.get_all_model import GetAllParamsModel

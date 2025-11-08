@@ -227,3 +227,4 @@ allure-tests
 /allure*
 exp.py
 callexp.py
+data_for_tests/
