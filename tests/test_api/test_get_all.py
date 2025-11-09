@@ -4,7 +4,7 @@ from pytest_mock import MockerFixture
 
 from api.entity import APIEntity
 from models.get_all_params_model import GetAllParamsModel
-from tests.mocks.scenarios import MockScenarios
+from tests.mocks.api_scenarios import MockScenarios
 
 
 @pytest.mark.api

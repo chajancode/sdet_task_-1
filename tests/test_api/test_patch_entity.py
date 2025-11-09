@@ -6,7 +6,7 @@ from pytest_mock import MockerFixture
 from api.entity import APIEntity
 from models.create_and_patch_model import CreateAndPatchModel
 from models.patch_id_model import PatchIdModel
-from tests.mocks.scenarios import MockScenarios
+from tests.mocks.api_scenarios import MockScenarios
 
 
 @pytest.mark.api
@@ -23,7 +23,7 @@ class TestPatchEntity:
         use_api_mocks: bool
     ):
 
-        with allure.step("Мокирование запроса `CREATE`"):
+        with allure.step("Мокирование запроса `PATCH`"):
             if use_api_mocks:
                 mock_response = MockScenarios.PATCH["positive"]
                 mocker.patch.object(
@@ -32,7 +32,7 @@ class TestPatchEntity:
                     return_value=mock_response
                 )
 
-        with allure.step("Выполнение запроса `CREATE`"):
+        with allure.step("Выполнение запроса `PATCH`"):
             response = api_client.patch_entity(*patch_entity)
             allure.attach(
                 str(response),
