@@ -2,6 +2,8 @@ from typing import Type, TypeVar
 from pydantic import BaseModel, ValidationError
 from requests import RequestException, Session
 
+import allure
+
 from exceptions.APIExceptions import APIError, ResponseValidationError
 from endpoints.endpoints import Endpoints
 from models.create_and_patch_model import CreateAndPatchModel
@@ -73,7 +75,13 @@ class APIEntity:
                 url=endpoint
             ) from e
 
+    @allure.step("Отправка запроса для создания сущности")
     def create_entity(self, data: CreateAndPatchModel):
+        allure.attach(
+            str(data),
+            name="Передаётся модель",
+            attachment_type=allure.attachment_type.JSON
+        )
         return self._request(
             method="POST",
             endpoint=Endpoints.CREATE,

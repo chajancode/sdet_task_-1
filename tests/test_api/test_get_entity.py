@@ -8,8 +8,12 @@ from tests.mocks.scenarios import MockScenarios
 
 
 @pytest.mark.api
-class TestCreateEntity:
+@allure.feature("Создание новой сущности")
+@allure.suite("API тесты")
+class TestGetEntity:
+
     @allure.title("Тест получения сущности по ID")
+    @allure.description("Проверяет успешное создание сущности через АПИ.")
     def test_get_entity(
         self,
         mocker: MockerFixture,
@@ -19,14 +23,20 @@ class TestCreateEntity:
     ):
 
         if use_api_mocks:
-            mock_response = MockScenarios.GET["positive"]
-            mocker.patch.object(
-                api_client,
-                "get_entity",
-                return_value=mock_response
+            with allure.step("Мокирование запроса `GET`"):
+                mock_response = MockScenarios.GET["positive"]
+                mocker.patch.object(
+                    api_client,
+                    "get_entity",
+                    return_value=mock_response
+                )
+        with allure.step("Выполнение запроса `GET`"):
+            response = api_client.get_entity(get_params)
+            allure.attach(
+                str(response),
+                name="Ответ API",
+                attachment_type=allure.attachment_type.JSON
             )
-
-        response = api_client.get_entity(get_params)
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не оответствует моку"

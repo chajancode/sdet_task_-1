@@ -8,9 +8,12 @@ from tests.mocks.scenarios import MockScenarios
 
 
 @pytest.mark.api
+@allure.feature("Создание новой сущности")
+@allure.suite("API тесты")
 class TestCreateEntity:
 
     @allure.title("Тест создания новой сущности")
+    @allure.description("Проверяет успешное создание сущности через АПИ.")
     def test_create_entity(
         self,
         mocker: MockerFixture,
@@ -20,14 +23,21 @@ class TestCreateEntity:
     ):
 
         if use_api_mocks:
-            mock_response = MockScenarios.CREATE["positive"]
-            mocker.patch.object(
-                api_client,
-                "create_entity",
-                return_value=mock_response
-            )
+            with allure.step("Мокирование запроса `CREATE`"):
+                mock_response = MockScenarios.CREATE["positive"]
+                mocker.patch.object(
+                    api_client,
+                    "create_entity",
+                    return_value=mock_response
+                )
 
-        response = api_client.create_entity(create_entity_data)
+        with allure.step("Выполнение запроса `CREATE`"):
+            response = api_client.create_entity(create_entity_data)
+            allure.attach(
+                str(response),
+                name="Ответ API",
+                attachment_type=allure.attachment_type.JSON
+            )
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не оответствует моку"

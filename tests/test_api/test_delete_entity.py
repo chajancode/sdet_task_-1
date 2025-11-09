@@ -8,8 +8,11 @@ from tests.mocks.scenarios import MockScenarios
 
 
 @pytest.mark.api
-class TestCreateEntity:
+@allure.feature("Удаление сущности")
+@allure.suite("API тесты")
+class TestDeleteEntity:
     @allure.title("Тест удаления сущности")
+    @allure.description("Проверяет успешное удаление сущности через АПИ.")
     def test_delete_entity(
         self,
         mocker: MockerFixture,
@@ -19,14 +22,20 @@ class TestCreateEntity:
     ):
 
         if use_api_mocks:
-            mock_response = MockScenarios.DELETE["positive"]
-            mocker.patch.object(
-                api_client,
-                "delete_entity",
-                return_value=mock_response
+            with allure.step("Мокирование запроса `DELETE`"):
+                mock_response = MockScenarios.DELETE["positive"]
+                mocker.patch.object(
+                    api_client,
+                    "delete_entity",
+                    return_value=mock_response
+                )
+        with allure.step("Выполнение запроса `DELETE`"):
+            response = api_client.delete_entity(delete_params)
+            allure.attach(
+                str(response),
+                name="Ответ API",
+                attachment_type=allure.attachment_type.JSON
             )
-
-        response = api_client.delete_entity(delete_params)
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не соответствует моку"
