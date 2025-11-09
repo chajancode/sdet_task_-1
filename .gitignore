@@ -228,3 +228,4 @@ allure-tests
 exp.py
 callexp.py
 data_for_tests/
+.tests/mocks/api_mocks.py

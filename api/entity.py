@@ -5,7 +5,7 @@ from requests import RequestException, Session
 from exceptions.APIExceptions import APIError, ResponseValidationError
 from endpoints.endpoints import Endpoints
 from models.create_and_patch_model import CreateAndPatchModel
-from models.get_all_model import GetAllParamsModel
+from models.get_all_params_model import GetAllParamsModel
 from models.get_all_response_model import GetAllResponseModel
 from models.get_and_delete_model import GetAndDeleteModel
 from models.get_response_model import GetResponseModel

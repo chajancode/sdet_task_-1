@@ -4,7 +4,7 @@ import pytest
 from api.entity import APIEntity
 from data_for_tests.data_for_tests import DataForTests
 from models.create_and_patch_model import CreateAndPatchModel
-from models.get_all_model import GetAllParamsModel
+from models.get_all_params_model import GetAllParamsModel
 from models.get_and_delete_model import GetAndDeleteModel
 from models.patch_id_model import PatchIdModel
 
@@ -18,16 +18,16 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.fixture
-def use_api_mocks(request):
-    return not request.config.getoption("--no-api-mocks")
-
-
 @pytest.fixture(scope="session")
 def api_client() -> Generator[APIEntity, None, None]:
     client = APIEntity(timeout=10)
     yield client
     client.session.close()
+
+
+@pytest.fixture
+def use_api_mocks(request):
+    return not request.config.getoption("--no-api-mocks")
 
 
 @pytest.fixture()
