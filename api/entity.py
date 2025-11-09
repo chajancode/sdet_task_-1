@@ -4,7 +4,7 @@ from requests import RequestException, Session
 
 import allure
 
-from exceptions.APIExceptions import APIError, ResponseValidationError
+from Exceptions.APIExceptions import APIError, ResponseValidationError
 from endpoints.endpoints import Endpoints
 from models.create_and_patch_model import CreateAndPatchModel
 from models.get_all_params_model import GetAllParamsModel
