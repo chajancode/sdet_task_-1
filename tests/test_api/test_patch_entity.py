@@ -23,8 +23,8 @@ class TestPatchEntity:
         use_api_mocks: bool
     ):
 
-        with allure.step("Мокирование запроса `PATCH`"):
-            if use_api_mocks:
+        if use_api_mocks:
+            with allure.step("Мокирование запроса `PATCH`"):
                 mock_response = MockScenarios.PATCH["positive"]
                 mocker.patch.object(
                     api_client,

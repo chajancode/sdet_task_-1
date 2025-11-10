@@ -134,7 +134,7 @@ class APIEntity:
     def patch_entity(self, id: PatchIdModel, data: CreateAndPatchModel):
         allure.attach(
             f"ID: {str(id)}, body: {str(data)}",
-            name="Переданы модели",
+            name="Передана модель",
             attachment_type=allure.attachment_type.JSON
         )
         return self._request(
