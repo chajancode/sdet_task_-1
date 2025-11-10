@@ -2,9 +2,9 @@ name: Simbirsoft SDET task 1
 
 on:
   push:
-    branches: [main, develop]
+    branches: [api_tests, mocking]
   pull_request:
-    branches: [main]
+    branches: [api_tests]
 
 
 jobs:
