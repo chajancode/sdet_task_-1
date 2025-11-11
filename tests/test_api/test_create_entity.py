@@ -4,6 +4,7 @@ from pytest_mock import MockerFixture
 
 from api.entity import APIEntity
 from models.create_and_patch_model import CreateAndPatchModel
+from models.create_response_model import CreateResponseModel
 from tests.mocks.api_scenarios import MockScenarios
 
 
@@ -41,3 +42,4 @@ class TestCreateEntity:
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не оответствует моку"
+        assert isinstance(response, int), "Ожидаемый ответ int"

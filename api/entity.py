@@ -51,9 +51,9 @@ class APIEntity:
                     case "POST":
                         return response.json()
                     case "DELETE":
-                        return
+                        return response.status_code
                     case "PATCH":
-                        return
+                        return response.status_code
 
             return response_model.model_validate(response.json())
 

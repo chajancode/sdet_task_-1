@@ -42,3 +42,4 @@ class TestPatchEntity:
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не оответствует моку"
+        assert response == 204, "Обновление сущности не удалось"

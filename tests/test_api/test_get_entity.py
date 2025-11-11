@@ -4,6 +4,7 @@ from pytest_mock import MockerFixture
 
 from api.entity import APIEntity
 from models.get_and_delete_model import GetAndDeleteModel
+from models.get_response_model import GetResponseModel
 from tests.mocks.api_scenarios import MockScenarios
 
 
@@ -40,3 +41,6 @@ class TestGetEntity:
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не оответствует моку"
+        assert GetResponseModel.model_validate(
+            response
+        ), f"Ответ не соответсвует {GetResponseModel}"

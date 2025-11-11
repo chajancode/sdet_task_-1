@@ -4,6 +4,7 @@ from pytest_mock import MockerFixture
 
 from api.entity import APIEntity
 from models.get_all_params_model import GetAllParamsModel
+from models.get_all_response_model import GetAllResponseModel
 from tests.mocks.api_scenarios import MockScenarios
 
 
@@ -41,3 +42,6 @@ class TestGetAll:
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не оответствует моку"
+        assert GetAllResponseModel.model_validate(
+                response
+            ), f"Ответ не соответсвует {GetAllResponseModel.model_dump_json()}"
