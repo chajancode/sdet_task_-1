@@ -225,3 +225,8 @@ $RECYCLE.BIN/
 .allure-tests/
 allure-tests
 /allure*
+exp.py
+callexp.py
+# data_for_tests/
+.tests/mocks/api_mocks.py
+.vscode
