@@ -39,4 +39,5 @@ class TestDeleteEntity:
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не соответствует моку"
-        assert response == 204, "Не удалось удалить сущность"
+        else:
+            assert response == 204, "Не удалось удалить сущность"

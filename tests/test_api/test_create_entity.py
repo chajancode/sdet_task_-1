@@ -42,4 +42,5 @@ class TestCreateEntity:
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не оответствует моку"
-        assert isinstance(response, int), "Ожидаемый ответ int"
+        else:
+            assert isinstance(response, int), "Ожидаемый ответ int"

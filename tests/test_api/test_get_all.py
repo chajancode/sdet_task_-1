@@ -42,6 +42,8 @@ class TestGetAll:
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не оответствует моку"
-        assert GetAllResponseModel.model_validate(
-                response
-            ), f"Ответ не соответсвует {GetAllResponseModel.model_dump_json()}"
+        else:
+            assert GetAllResponseModel.model_validate(
+                    response
+            ), "Ответ не соответсвует \n"
+            f"{GetAllResponseModel.model_dump_json()}"

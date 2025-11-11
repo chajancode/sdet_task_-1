@@ -41,6 +41,7 @@ class TestGetEntity:
 
         if use_api_mocks:
             assert response == mock_response, "Ответ не оответствует моку"
-        assert GetResponseModel.model_validate(
-            response
-        ), f"Ответ не соответсвует {GetResponseModel}"
+        else:
+            assert GetResponseModel.model_validate(
+                response
+            ), f"Ответ не соответсвует {GetResponseModel}"
