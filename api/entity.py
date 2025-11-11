@@ -75,6 +75,58 @@ class APIEntity:
                 url=endpoint
             ) from e
 
+    def post(
+            self,
+            endpoint: str,
+            json: dict,
+            response_model: Type[T] | None = None
+    ) -> T | dict | None:
+        return self._request(
+            method="POST",
+            endpoint=endpoint,
+            json=json,
+            response_model=response_model
+        )
+
+    def delete(
+            self,
+            endpoint: str,
+            params: dict | None = None,
+            response_model=None
+    ) -> None:
+        return self._request(
+            method="DELETE",
+            endpoint=endpoint,
+            params=params,
+            response_model=None
+        )
+
+    def get(
+            self,
+            endpoint: str,
+            params: dict | None = None,
+            response_model: Type[T] | None = None
+    ) -> T | dict | None:
+        return self._request(
+            method="GET",
+            endpoint=endpoint,
+            params=params,
+            response_model=response_model
+        )
+
+    def patch(
+            self,
+            endpoint: str,
+            json: dict,
+            response_model: Type[T] | None = None
+    ) -> T | dict | None:
+        return self._request(
+            method="PATCH",
+            endpoint=endpoint,
+            json=json,
+            response_model=response_model
+        )
+
     @allure.step("Отправка запроса для создания сущности")
     def create_entity(self, data: CreateAndPatchModel):
         allure.attach(
@@ -82,10 +134,9 @@ class APIEntity:
             name="Передана модель",
             attachment_type=allure.attachment_type.JSON
         )
-        return self._request(
-            method="POST",
+        return self.post(
             endpoint=Endpoints.CREATE,
-            json=data.model_dump(),
+            json=data.model_dump()
         )
 
     @allure.step("Отправка запроса для удаления сущности")
@@ -95,11 +146,9 @@ class APIEntity:
             name="Передан ID",
             attachment_type=allure.attachment_type.JSON
         )
-        return self._request(
-            method="DELETE",
+        return self.delete(
             endpoint=f"{Endpoints.DELETE}{params.id}",
-            params=params.model_dump(),
-            response_model=None
+            params=params.model_dump()
         )
 
     @allure.step("Отправка запроса для получения сущности")
@@ -109,8 +158,7 @@ class APIEntity:
             name="Передан ID",
             attachment_type=allure.attachment_type.JSON
         )
-        return self._request(
-            method="GET",
+        return self.get(
             endpoint=f"{Endpoints.GET}{params.id}",
             params=params.model_dump(),
             response_model=GetResponseModel
@@ -123,8 +171,7 @@ class APIEntity:
             name="Переданы параметры",
             attachment_type=allure.attachment_type.JSON
         )
-        return self._request(
-            method="GET",
+        return self.get(
             endpoint=Endpoints.GET_ALL,
             params=params.model_dump(),
             response_model=GetAllResponseModel
@@ -137,8 +184,7 @@ class APIEntity:
             name="Передана модель",
             attachment_type=allure.attachment_type.JSON
         )
-        return self._request(
-            method="PATCH",
+        return self.patch(
             endpoint=f"{Endpoints.PATCH}{id.id}",
             json=data.model_dump()
         )
